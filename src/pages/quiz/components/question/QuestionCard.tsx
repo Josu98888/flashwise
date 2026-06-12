@@ -9,6 +9,8 @@ type Props = {
   selected: string | null;
   options: string[];
   handleSelect: (option: string) => void;
+  hits: number;
+  misses: number;
 };
 
 const QuestionCard = ({
@@ -18,6 +20,8 @@ const QuestionCard = ({
   selected,
   options,
   handleSelect,
+  hits= 0,
+  misses= 0,
 }: Props) => {
   return (
     <div  className={`${cardStyles.cardWrapper} ${cardStyles.cardSizeDefault} ${cardStyles.cardQuizMobile}`}>
@@ -27,6 +31,10 @@ const QuestionCard = ({
         <div className={`${cardStyles.cardFace} ${styles.cardFace} ${cardStyles.front} ${styles.front}`}>
           <div className={styles.cardContent}>
           <h2>{question}</h2>
+          <div className={styles.counters}>
+            <span className={styles.hitCount}>🟩 {hits}</span>
+            <span className={styles.missCount}>🟥 {misses}</span>
+          </div>
 
           <div className={styles.optionsContainer}>
             {options.map((opt, i) => (
