@@ -1,4 +1,4 @@
-import { useFlashcardStore } from "../store";
+import { useFlashcardStore } from "../../store";
 import styles from "./ProgressPanel.module.css";
 
 export const ProgressPanel = () => {

@@ -1,8 +1,7 @@
 import { useFlashcardStore } from "@/features/flashcards/store"; 
 import { FlashcardItem } from "@/features/flashcards/components/cardItem/CardItem";
 import type { Flashcard } from "@/features/flashcards/types";
-// IMPORTANTE: Esta es la ruta absoluta al CSS que está en ListCards
-import style from "@/features/flashcards/components/ListCards/listcards.module.css";
+import style from "./cardList.module.css";
 
 interface FlashcardListProps {
   onEdit?: (id: string) => void;

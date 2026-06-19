@@ -1,4 +1,4 @@
-import { ProgressPanel } from "@/features/flashcards/components/ProgressPanel";
+import { ProgressPanel } from "@/features/flashcards/components/progress/ProgressPanel";
 import style from "./progressPage.module.css";
 
 export default function ProgressPage() {

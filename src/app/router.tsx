@@ -3,8 +3,8 @@ import { createBrowserRouter } from 'react-router-dom';
 // y usa Ctrl + Espacio para elegir el archivo correcto.
 import { RootLayout } from "../shared/components/layout/RootLayout"; 
 import { HomePage } from "@/pages/home/HomePage";
-import { CreateCards } from '@/features/flashcards/components/createCard/CreateCards';
-import ListCards from '../features/flashcards/components/ListCards/ListCards';
+import { CreateCards } from '@/pages/createCard/CreateCards';
+import ListCards from "@/pages/ListCards/ListCards";
 import StudyCards from '../pages/flashcards/StudyCards';
 import Quiz from '../pages/quiz/Quiz';
 import ProgressPage from '../pages/progress/ProgressPage';
