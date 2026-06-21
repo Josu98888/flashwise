@@ -15,4 +15,5 @@ export interface Flashcard {
   difficulty: Difficulty;
   hits: number;
   misses: number;
+  lastReview?: string; /* Sumamos esta línea para guardar la fecha */
 }

@@ -8,21 +8,20 @@ const ListCards = () => {
 
   return (
     <div className={style.container}> 
-      <section>
-        <h2 className={style.title}>Editar flashcard</h2>
-        {editingId ? (
+      {/* Si toqué el lápiz para editar, muestro el componente de edición */}
+      {editingId ? (
+        <section>
+          {/* Mantenemos el estilo de título degradado también aquí */}
+          <h2 className={style.animatedTitle}>Editar Flashcard</h2>
           <EditFlashcard id={editingId} onDone={() => setEditingId(null)} />
-        ) : (
-          <p className={style.subtitle}>
-            Seleccioná una card del listado para editarla.
-          </p>
-        )}
-      </section>
-      
-      <section className={style.listSection}>
-        <h2 className={style.titlelist}>Listado</h2>
-        <FlashcardList onEdit={setEditingId} />
-      </section>
+        </section>
+      ) : (
+        /* Si NO estoy editando, muestro la página con el título aesthetic y fuente Lora */
+        <section className={style.listSection}>
+          <h2 className={style.animatedTitle}>Mis Colecciones de Flashcards</h2>
+          <FlashcardList onEdit={setEditingId} />
+        </section>
+      )}
     </div>
   );
 };
