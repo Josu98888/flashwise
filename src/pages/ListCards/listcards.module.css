@@ -1,15 +1,46 @@
+/* ==========================================================================
+   listcards.module.css (Unificación final)
+   ========================================================================== */
+
+/* Importamos las fuentes para que el estilo Lora funcione */
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+
 /* ─── CONTENEDOR PRINCIPAL CON ESPACIO PARA NAVBAR ─── */
 .container {
   width: 100%;
   padding: 100px 20px 80px; 
   box-sizing: border-box;
-  text-align: left; /* Alineación forzada a la izquierda para títulos y lista */
+  text-align: left;
 }
 
-/* ─── GRID DE LISTADO (Ocupa todo el ancho) ─── */
+.animatedTitle {
+  font-family: 'Lora', serif;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 600; /* Un poquito más grueso para que absorba más color */
+  margin: 40px 0 20px 0;
+  
+  /* Gradiente ultra intenso y saturado */
+  background: linear-gradient(
+    90deg, 
+    #ffac5e 0%,    /* Naranja intenso inicial */
+    #e879f9 35%,   /* Violeta/Rosa vibrante */
+    #818cf8 70%,   /* Violeta azulado */
+    #60a5fa 100%   /* Azul eléctrico final */
+  );
+  
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  
+  display: block;
+  /* Esto ayuda a que el degradado se vea más nítido en pantallas de alta resolución */
+  -webkit-text-stroke: 0.1px rgba(255, 255, 255, 0.1); 
+}
+
+/* ─── GRID DE LISTADO ─── */
 .list {
   display: grid;
-  /* El auto-fit + minmax asegura que se estiren ocupando el espacio disponible */
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); 
   gap: 24px;
   list-style: none;
@@ -17,15 +48,7 @@
   padding: 0;
 }
 
-/* ─── TÍTULOS ─── */
-.title {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: #1e293b;
-  margin-bottom: 10px;
-}
-
+/* ─── OTROS ESTILOS ─── */
 .subtitle {
   font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
@@ -33,24 +56,20 @@
   margin-bottom: 30px;
 }
 
-.titlelist {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 20px;
-}
-
-/* ─── ESPACIADO ENTRE SECCIONES ─── */
 .listSection {
   margin-top: 40px;
 }
 
-/* ─── RESPONSIVE ─── */
-@media (max-width: 680px) {
+/* ─── RESPONSIVE (Celulares y Tablets) ─── */
+@media (max-width: 768px) {
   .container {
-    padding: 80px 5vw 40px; 
+    padding-top: 90px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 40px;
   }
-  .title { font-size: 1.5rem; }
-  .list { grid-template-columns: 1fr; } /* En celular, una sola columna */
+  
+  .list { 
+    grid-template-columns: 1fr; 
+  } 
 }

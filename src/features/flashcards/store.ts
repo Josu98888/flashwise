@@ -13,7 +13,12 @@ interface FlashcardState {
   addFlashcard: (card: Omit<Flashcard, "id">) => void;
   updateFlashcard: (id: string, updates: Partial<Omit<Flashcard, "id">>) => void;
   removeFlashcard: (id: string) => void;
+  
+  // Para el Quiz
   recordResult: (id: string, isCorrect: boolean) => void;
+  
+  // NUEVO: Para el modo Estudiar
+  markAsStudied: (id: string) => void; 
   
   // Función para tu desafío
   updateStreak: (newStreak: number, date: string) => void;
@@ -51,17 +56,35 @@ export const useFlashcardStore = create<FlashcardState>()(
           flashcards: state.flashcards.filter((card) => card.id !== id),
         })),
         
+      // ─── ACTUALIZADO: Ahora el Quiz guarda la fecha ───
       recordResult: (id, isCorrect) => 
         set((state)=> ({
           flashcards: state.flashcards.map((card)=>{
-            if(card.id === id)
+            if(card.id === id) {
               return {
                 ...card,
                 hits: isCorrect ? card.hits + 1 : card.hits,
-                misses: isCorrect ? card.misses : card.misses + 1
+                misses: isCorrect ? card.misses : card.misses + 1,
+                lastReview: new Date().toISOString() // ¡Acá atrapamos el tiempo real!
               }
+            }
             return card
           })
+        })),
+
+      // ─── NUEVO: Motor exclusivo para el modo Estudiar ───
+      markAsStudied: (id) =>
+        set((state) => ({
+          flashcards: state.flashcards.map((card) => {
+            if (card.id === id) {
+              return {
+                ...card,
+                hits: card.hits + 1, // Le suma 1 a las "veces repasadas"
+                lastReview: new Date().toISOString() // Guarda que la viste hoy
+              };
+            }
+            return card;
+          }),
         })),
 
       // La función que guarda la racha

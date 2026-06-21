@@ -48,12 +48,10 @@ export function EditFlashcard({ id, onDone }: EditFlashcardProps) {
     onDone?.();
   }
 
-  if (!card) return <p className={style.notFound}>Flashcard no encontrada.</p>;
-
   return (
     <form className={style.form} onSubmit={handleSubmit}>
       <div className={style.formHeader}>
-        <h2 className={style.formTitle}>Editar Flashcard</h2>
+        {/* HE ELIMINADO EL H2 DE "EDITAR FLASHCARD" AQUÍ */}
         <p className={style.formSubtitle}>Modificá los datos de la tarjeta</p>
       </div>
 
