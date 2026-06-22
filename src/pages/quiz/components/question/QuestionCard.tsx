@@ -1,5 +1,5 @@
 import styles from "../../quiz.module.css";
-import OptionCard from "../optionCard/OptionCard";
+
 type Props = {
   question: string;
   answer: string;
@@ -10,6 +10,7 @@ type Props = {
   hits?: number;
   misses?: number;
 };
+
 const QuestionCard = ({
   question,
   answer,
@@ -21,60 +22,42 @@ const QuestionCard = ({
   misses = 0,
 }: Props) => {
   return (
-    <>
-      {/* ✅ CARD (pregunta) */}
-      <div className={styles.flipCard}>
-
-        <div className={`${styles.flipInner} ${flipped ? styles.flipped : ""}`}>
-
-          {/* FRONT */}
-          <div className={`${styles.flipFace} ${styles.flipFront}`}>
-
-            {/* ✅ counters */}
-            <div className={styles.counters}>
-              <span className={styles.hitCount}>🟩 {hits}</span>
-              <span className={styles.missCount}>🟥 {misses}</span>
-            </div>
-
-            <h2>{question}</h2>
-          </div>
-
-          {/* BACK */}
-          <div
-            className={`${styles.flipFace} ${styles.flipBack}
-              ${flipped
-                ? selected === answer
-                  ? styles.correct
-                  : styles.incorrect
-                : ""
-              }
-            `}
-          >
-            <h2>{answer}</h2>
-          </div>
-
-        </div>
-          {/* ✅ MEDIDOR (CLAVE) */}
-  <div className={styles.questionSize}>
-    <h2>{question}</h2>
-    <h2>{answer}</h2>
-  </div>
+    <div className={styles.glassCard}>
+      {/* Contadores */}
+      <div className={styles.counters}>
+        <div className={styles.badgeHit}>✅ {hits}</div>
+        <div className={styles.badgeMiss}>❌ {misses}</div>
       </div>
+      
+      {/* Título y Pregunta */}
+      <div className={styles.sparkleWrapper}>✨</div>
+      <h2 className={styles.questionText}>{question}</h2>
 
-      {/* ✅ 🔥 OPCIONES (AFUERA DE LA CARD) 🔥 */}
+      {/* Grid de opciones */}
       <div className={styles.optionsContainer}>
-        {options.map((opt, i) => (
-          <OptionCard
-            key={i}
-            text={opt}
-            isCorrect={opt === answer}
-            isSelected={selected === opt}
-            flipped={flipped}
-            onClick={() => handleSelect(opt)}
-          />
-        ))}
+        {options.map((opt, i) => {
+          const isCorrect = opt === answer;
+          const isSelected = opt === selected;
+          
+          let btnClass = styles.optionBtn;
+          if (flipped) {
+            if (isCorrect) btnClass += ` ${styles.correctOption}`;
+            else if (isSelected) btnClass += ` ${styles.incorrectOption}`;
+          }
+
+          return (
+            <button 
+              key={i} 
+              className={btnClass} 
+              onClick={() => handleSelect(opt)} 
+              disabled={flipped}
+            >
+              {opt}
+            </button>
+          );
+        })}
       </div>
-    </>
+    </div>
   );
 };
 
