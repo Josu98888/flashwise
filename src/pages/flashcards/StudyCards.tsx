@@ -90,8 +90,7 @@ const StudyCards = () => {
         showAnswer={isAnswerVisible}
         handleClick={handleClick}
         onMenuClick={toggleMenu}
-        filter={filterValue} 
-        menuOpen={menuOpen}
+        menuOpen={menuOpen} 
       />
     </div>
   );

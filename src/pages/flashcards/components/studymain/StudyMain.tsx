@@ -9,7 +9,6 @@ type Props = {
   showAnswer: boolean;
   handleClick: () => void;
   onMenuClick: () => void;
-  filter: string;
   menuOpen?: boolean;
 };
 
@@ -21,7 +20,6 @@ const StudyMain = ({
   showAnswer,
   handleClick,
   onMenuClick,
-  filter,
   menuOpen
 }: Props) => {
 
