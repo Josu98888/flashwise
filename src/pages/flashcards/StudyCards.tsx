@@ -15,9 +15,11 @@ const StudyCards = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnswerVisible, setIsAnswerVisible] = useState(false);
   
+  // 🔹 Arranca en TRUE para que en la compu empiece abierta
   const [menuOpen, setMenuOpen] = useState(true);
 
   useEffect(() => {
+    // Si la pantalla es de celular/tablet al cargar, la cerramos por defecto
     if (typeof window !== "undefined" && window.innerWidth <= 1024) {
       setMenuOpen(false);
     }
@@ -30,11 +32,7 @@ const StudyCards = () => {
   const filteredCards = useMemo(() => {
     if (filterType === "all") return flashcards;
     if (filterType === "difficulty") return flashcards.filter(c => c.difficulty === filterValue);
-    if (filterType === "materia") {
-      // 🔥 Como filterValue ya viene normalizado desde el Sidebar, 
-      // solo comparamos el topic de la tarjeta (también normalizado)
-      return flashcards.filter(c => normalize(c.topic) === filterValue);
-    }
+    if (filterType === "materia") return flashcards.filter(c => c.topic === filterValue);
     return flashcards;
   }, [flashcards, filterType, filterValue]);
 
@@ -71,47 +69,39 @@ const StudyCards = () => {
     }
   };
 
-const toggleMenu = () => {
-  setMenuOpen(prev => !prev);
-};
+  const toggleMenu = () => {
+    setMenuOpen(prev => !prev);
+  };
 
   return (
-    <>
-      <button className={styles.menuButton}
-      onClick={() => setMenuOpen(!menuOpen)}>
-        ☰
-      </button>
+    <div className={styles.layout}>
+      <Sidebar
+        filterType={filterType}
+        setFilterType={setFilterType}
+        filterValue={filterValue}
+        setFilterValue={setFilterValue}
+        materiasUnicas={materiasUnicas}
+        filteredCards={filteredCards}
+        currentIndex={currentIndex}
+        setCurrentIndex={setCurrentIndex}
+        setShowAnswer={setIsAnswerVisible}
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
+      />
 
-      <div className={styles.layout}>
-        <Sidebar
-          // --- PASAMOS LOS NUEVOS FILTROS ---
-          filterType={filterType}
-          setFilterType={setFilterType}
-          filterValue={filterValue}
-          setFilterValue={setFilterValue}
-          materiasUnicas={materiasUnicas}
-          // ----------------------------------
-          filteredCards={filteredCards}
-          currentIndex={currentIndex}
-          setCurrentIndex={setCurrentIndex}
-          setShowAnswer={setIsAnswerVisible}
-          menuOpen={menuOpen}
-          setMenuOpen={setMenuOpen}
-        />
-
-        <StudyMain
-          hasCards={hasCards}
-          currentIndex={currentIndex}
-          total={filteredCards.length}
-          card={card}
-          showAnswer={isAnswerVisible}
-          handleClick={handleClick}
-          onMenuClick={toggleMenu}
-          filter={filterValue} // Usamos el valor actual
-        />
-      </div>
-    </>
+      <StudyMain
+        hasCards={hasCards}
+        currentIndex={currentIndex}
+        total={filteredCards.length}
+        card={card}
+        showAnswer={isAnswerVisible}
+        handleClick={handleClick}
+        onMenuClick={toggleMenu}
+        filter={filterValue} 
+        menuOpen={menuOpen}
+      />
+    </div>
   );
 };
 
-export default StudyCards; 
+export default StudyCards;

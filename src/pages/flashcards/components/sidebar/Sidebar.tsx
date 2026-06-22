@@ -42,12 +42,13 @@ const Sidebar = ({
   return (
     <aside className={`${sidebar.sidebar} ${menuOpen ? sidebar.open : ""}`}>
       
+      {/* 🔹 HEADER: Ahora "Filtrar" a la izquierda y el botón a la derecha */}
       <div className={sidebar.header}>
         <h2 className={sidebar.filterTitle}>Filtrar</h2>
         <button 
           className={sidebar.toggleBtn} 
           onClick={() => setMenuOpen(false)}
-          title="Cerrar barra lateral"
+          title="Cerrar barra lateral" /* 👈 Tooltip */
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -119,7 +120,7 @@ const Sidebar = ({
             onClick={() => {
               setCurrentIndex(i);
               setShowAnswer(false);
-              if (window.innerWidth <= 1024) setMenuOpen(false);
+              if (window.innerWidth <= 1024) setMenuOpen(false); // Cierra automático solo en celular
             }}
           >
             {c.question}
