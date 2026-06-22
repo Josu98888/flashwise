@@ -1,7 +1,5 @@
-import styles from "../../quiz.module.css";
-import review from "./review.module.css"
-import result from "../result/result.module.css";
-import button from "../../../../shared/components/ui/button/button.module.css";
+import review from "./review.module.css";
+
 type Answer = {
   question: string;
   correctAnswer: string;
@@ -16,37 +14,34 @@ type Props = {
 
 const Review = ({ answers, onBack }: Props) => {
   return (
-    <div className={styles.container}>
-      <div className={styles.main}>
-        <div className={result.resultBox}>
+    <div className={review.reviewCard}>
+      <h2 className={review.title}>Revisión de respuestas</h2>
+      
+      <div className={review.answersList}>
+        {answers.map((item, i) => (
+          <div 
+            key={i} 
+            className={`${review.bubble} ${item.isCorrect ? review.correct : review.incorrect}`}
+          >
+            <p className={review.question}>{i + 1}. {item.question}</p>
+            
+            <div className={review.details}>
+              <p>Tu respuesta: <strong>{item.userAnswer}</strong></p>
+              {!item.isCorrect && (
+                <p>Correcta: <strong>{item.correctAnswer}</strong></p>
+              )}
+            </div>
 
-          <h2>Revisión de respuestas 📋</h2>
-
-          <div className={review.reviewList}>
-            {answers.map((item, i) => (
-              <div
-                key={i}>
-                <p><strong>{i + 1}. {item.question}</strong></p>
-
-                <p>Tu respuesta: {item.userAnswer}</p>
-
-                {!item.isCorrect && (
-                  <p>Correcta: {item.correctAnswer}</p>
-                )}
-
-                <p>
-                  {item.isCorrect ? "✅ Correcto" : "❌ Incorrecto"}
-                </p>
-              </div>
-            ))}
+            <span className={review.status}>
+              {item.isCorrect ? "✅ Correcto" : "❌ Incorrecto"}
+            </span>
           </div>
-
-          <button className={button.primary} onClick={onBack}>
-            Volver ⬅
-          </button>
-
-        </div>
+        ))}
       </div>
+
+      <button className={review.backBtn} onClick={onBack}>
+        Volver atrás ⬅
+      </button>
     </div>
   );
 };

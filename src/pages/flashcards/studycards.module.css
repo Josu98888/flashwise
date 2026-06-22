@@ -231,3 +231,18 @@
     margin-top: 5px;
   }
 }
+
+/* 🔹 CONTADOR ESTILO PASTILLA (Para StudyCards) */
+.counterPill {
+  background: linear-gradient(135deg, #fbcfe8, #ddd6fe, #bfdbfe);
+  color: #374151; /* Color de texto oscuro para que se lea bien */
+  padding: 8px 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  display: inline-block;
+  margin-bottom: 20px;
+}
