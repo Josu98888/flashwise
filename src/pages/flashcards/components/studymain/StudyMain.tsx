@@ -37,7 +37,7 @@ const StudyMain = ({
           <button 
             className={styles.menuButton} 
             onClick={(e) => { e.stopPropagation(); onMenuClick(); }}
-            title="Abrir barra lateral" /* 👈 Tooltip */
+            title="Abrir barra lateral"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -51,9 +51,10 @@ const StudyMain = ({
 
       {hasCards ? (
         <>
-          <p className={styles.counter}>
+          {/* 🔥 AQUI HICE EL CAMBIO: cambié styles.counter por styles.counterPill */}
+          <div className={styles.counterPill}>
             {currentIndex + 1} / {total}
-          </p>
+          </div>
 
           <div className={styles.studyContainer}>
             <div className={`${styles.cardWrapper} ${styles.rainbowCard}`} onClick={handleClick}>

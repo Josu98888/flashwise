@@ -4,6 +4,10 @@ import styles from "./studycards.module.css";
 import Sidebar from "./components/sidebar/Sidebar";
 import StudyMain from "./components/studymain/StudyMain";
 
+// 🔥 Función de normalización para asegurar coincidencias sin importar tildes/mayúsculas
+const normalize = (str: string) => 
+  str.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
 const StudyCards = () => {
   const flashcards = useFlashcardStore((s) => s.flashcards);
   const markAsStudied = useFlashcardStore((s: any) => s.markAsStudied);
@@ -11,30 +15,35 @@ const StudyCards = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnswerVisible, setIsAnswerVisible] = useState(false);
   
-  // 🔹 Arranca en TRUE para que en la compu empiece abierta
   const [menuOpen, setMenuOpen] = useState(true);
 
   useEffect(() => {
-    // Si la pantalla es de celular/tablet al cargar, la cerramos por defecto
     if (typeof window !== "undefined" && window.innerWidth <= 1024) {
       setMenuOpen(false);
     }
   }, []);
 
-  // --- NUEVA LÓGICA DE FILTROS ---
   const [filterType, setFilterType] = useState("all");
   const [filterValue, setFilterValue] = useState("");
 
+  // --- FILTRADO NORMALIZADO ---
   const filteredCards = useMemo(() => {
     if (filterType === "all") return flashcards;
     if (filterType === "difficulty") return flashcards.filter(c => c.difficulty === filterValue);
-    if (filterType === "materia") return flashcards.filter(c => c.topic === filterValue);
+    if (filterType === "materia") {
+      // 🔥 Como filterValue ya viene normalizado desde el Sidebar, 
+      // solo comparamos el topic de la tarjeta (también normalizado)
+      return flashcards.filter(c => normalize(c.topic) === filterValue);
+    }
     return flashcards;
   }, [flashcards, filterType, filterValue]);
 
+  // --- LISTA DE MATERIAS ÚNICAS NORMALIZADAS ---
   const materiasUnicas = useMemo(() => {
     const list = flashcards.map(c => c.topic).filter(t => t && t !== "");
-    return Array.from(new Set(list)).sort();
+    // Obtenemos los valores únicos normalizados
+    const unique = Array.from(new Set(list.map(t => normalize(t))));
+    return unique.sort((a, b) => a.localeCompare(b));
   }, [flashcards]);
 
   useEffect(() => {
