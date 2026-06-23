@@ -2,12 +2,16 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { Flashcard } from "./types";
 
-interface FlashcardState {
+export interface FlashcardState {
   flashcards: Flashcard[];
   
   // Novedades para el Desafío 5 (Rachas)
   streak: number;
   lastStudyDate: string | null;
+
+  // NUEVO: Historial de resultados
+  quizHistory: { score: number; total: number; date: string }[];
+  addResult: (score: number, total: number) => void;
 
   // CRUD
   addFlashcard: (card: Omit<Flashcard, "id">) => void;
@@ -28,10 +32,17 @@ export const useFlashcardStore = create<FlashcardState>()(
   persist(
     (set) => ({
       flashcards: [],
-      
-      // Valores iniciales de tus variables
       streak: 0,
       lastStudyDate: null,
+      quizHistory: [], // Inicializamos el historial vacío
+
+      addResult: (score, total) =>
+        set((state) => ({
+          quizHistory: [
+            ...state.quizHistory,
+            { score, total, date: new Date().toISOString() }
+          ]
+        })),
 
       addFlashcard: (card) =>
         set((state) => ({
@@ -56,38 +67,35 @@ export const useFlashcardStore = create<FlashcardState>()(
           flashcards: state.flashcards.filter((card) => card.id !== id),
         })),
         
-      // ─── ACTUALIZADO: Ahora el Quiz guarda la fecha ───
       recordResult: (id, isCorrect) => 
-        set((state)=> ({
-          flashcards: state.flashcards.map((card)=>{
+        set((state) => ({
+          flashcards: state.flashcards.map((card) => {
             if(card.id === id) {
               return {
                 ...card,
                 hits: isCorrect ? card.hits + 1 : card.hits,
                 misses: isCorrect ? card.misses : card.misses + 1,
-                lastReview: new Date().toISOString() // ¡Acá atrapamos el tiempo real!
+                lastReview: new Date().toISOString()
               }
             }
             return card
           })
         })),
 
-      // ─── NUEVO: Motor exclusivo para el modo Estudiar ───
       markAsStudied: (id) =>
         set((state) => ({
           flashcards: state.flashcards.map((card) => {
             if (card.id === id) {
               return {
                 ...card,
-                hits: card.hits + 1, // Le suma 1 a las "veces repasadas"
-                lastReview: new Date().toISOString() // Guarda que la viste hoy
+                hits: card.hits + 1,
+                lastReview: new Date().toISOString()
               };
             }
             return card;
           }),
         })),
 
-      // La función que guarda la racha
       updateStreak: (newStreak, date) =>
         set(() => ({
           streak: newStreak,
