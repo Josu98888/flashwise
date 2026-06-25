@@ -3,7 +3,6 @@ import styles from "../../quiz.module.css";
 type Props = {
     text: string;
     isCorrect: boolean;
-    isSelected: boolean;
     flipped: boolean;
     onClick: () => void;
 };
@@ -11,7 +10,6 @@ type Props = {
 const OptionCard = ({
     text,
     isCorrect,
-    isSelected,
     flipped,
     onClick,
 }: Props) => {
