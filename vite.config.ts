@@ -9,6 +9,6 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] })
   ],
-  base: '/Proyecto-grupo-3/',
+  base: './',
   resolve: { alias: { "@": path.resolve(__dirname, "src") } },
 })
